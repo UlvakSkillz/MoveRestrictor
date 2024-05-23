@@ -3,7 +3,7 @@ using MoveRestrictor; // The namespace of your mod class
 using System.Reflection;
 using System.Runtime.InteropServices;
 // ...
-[assembly: MelonInfo(typeof(main), "MoveRestrictor", "1.1.1", "UlvakSkillz")]
+[assembly: MelonInfo(typeof(main), "MoveRestrictor", "1.2.0", "UlvakSkillz")]
 [assembly: MelonGame("Buckethead Entertainment", "RUMBLE")]
 
 // General Information about an assembly is controlled through the following

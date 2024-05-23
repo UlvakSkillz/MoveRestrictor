@@ -18,11 +18,12 @@ namespace MoveRestrictor
         private bool movesSettable = false;
         private object checkPosesCoroutine;
         private bool timeToReadFile = true;
+        private Il2CppSystem.Collections.Generic.List<PoseInputSource> storedMoves = new Il2CppSystem.Collections.Generic.List<PoseInputSource>();
 
         public override void OnLateInitializeMelon()
         {
             MoveRestrictor.ModName = "MoveRestrictor";
-            MoveRestrictor.ModVersion = "1.1.1";
+            MoveRestrictor.ModVersion = "1.2.0";
             MoveRestrictor.SetFolder("MoveRestrictor");
             MoveRestrictor.AddToList("Description", ModSetting.AvailableTypes.Description, "", "Disables Specific Moves");
             MoveRestrictor.AddToList("Sprint", true, 0, "Grey Box Turns Off Sprint");
@@ -50,6 +51,7 @@ namespace MoveRestrictor
             currentScene = sceneName;
             sceneChanged = true;
             movesSettable = false;
+            storedMoves.Clear();
             sceneChangeCount++;
         }
 
@@ -184,15 +186,43 @@ namespace MoveRestrictor
                         poseList += ", ";
                     }
                     poseList += activePoses[i].poseSet.name;
+                    storedMoves.Add(activePoses[i]);
                     activePoses.RemoveAt(i);
                     i--;
                 }
             }
-            if (poseList == "")
+            if (poseList != "")
             {
-                poseList = "None";
+                MelonLogger.Msg("Poses Removed: " + poseList);
             }
-            MelonLogger.Msg("Poses Removed: " + poseList);
+            poseList = "";
+            for (int x = 0; x < storedMoves.Count; x++)
+            {
+                bool poseFound = false;
+                for (int i = 0; i < movesToKeep.Count; i++)
+                {
+                    if (storedMoves[x].poseSet.name == movesToKeep[i])
+                    {
+                        poseFound = true;
+                        break;
+                    }
+                }
+                if (poseFound)
+                {
+                    if (poseList != "")
+                    {
+                        poseList += ", ";
+                    }
+                    poseList += storedMoves[x].poseSet.name;
+                    activePoses.Add(storedMoves[x]);
+                    storedMoves.RemoveAt(x);
+                    x--;
+                }
+            }
+            if (poseList != "")
+            {
+                MelonLogger.Msg("Poses Added: " + poseList);
+            }
         }
     }
 }
