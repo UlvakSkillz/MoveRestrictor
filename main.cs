@@ -13,7 +13,7 @@ namespace MoveRestrictor
         private bool sceneChanged = false;
         private string currentScene = "Loader";
         private int sceneChangeCount = 0;
-        UI UI = RumbleModUIClass.UI_Obj;
+        UI UI = UI.instance;
         private Mod MoveRestrictor = new Mod();
         private bool movesSettable = false;
         private object checkPosesCoroutine;
@@ -23,27 +23,29 @@ namespace MoveRestrictor
         public override void OnLateInitializeMelon()
         {
             MoveRestrictor.ModName = "MoveRestrictor";
-            MoveRestrictor.ModVersion = "1.2.0";
+            MoveRestrictor.ModVersion = "1.3.2";
             MoveRestrictor.SetFolder("MoveRestrictor");
-            MoveRestrictor.AddToList("Description", ModSetting.AvailableTypes.Description, "", "Disables Specific Moves");
-            MoveRestrictor.AddToList("Sprint", true, 0, "Grey Box Turns Off Sprint");
-            MoveRestrictor.AddToList("Disc", true, 0, "Grey Box Turns Off Disc");
-            MoveRestrictor.AddToList("Pillar", true, 0, "Grey Box Turns Off Pillar");
-            MoveRestrictor.AddToList("Straight", true, 0, "Grey Box Turns Off Straight");
-            MoveRestrictor.AddToList("Ball", true, 0, "Grey Box Turns Off Ball");
-            MoveRestrictor.AddToList("Kick", true, 0, "Grey Box Turns Off Kick");
-            MoveRestrictor.AddToList("Stomp", true, 0, "Grey Box Turns Off Stomp");
-            MoveRestrictor.AddToList("Wall", true, 0, "Grey Box Turns Off Wall");
-            MoveRestrictor.AddToList("Jump", true, 0, "Grey Turns Off Jump");
-            MoveRestrictor.AddToList("Uppercut", true, 0, "Grey Box Turns Off Uppercut");
-            MoveRestrictor.AddToList("Cube", true, 0, "Grey Box Turns Off Cube");
-            MoveRestrictor.AddToList("Dash", true, 0, "Grey Box Turns Off Dash");
-            MoveRestrictor.AddToList("Parry", true, 0, "Grey Box Turns Off Parry");
-            MoveRestrictor.AddToList("Hold Left", true, 0, "Grey Box Turns Off Left Hand Hold");
-            MoveRestrictor.AddToList("Hold Right", true, 0, "Grey Box Turns Off Right Hand Hold");
-            MoveRestrictor.AddToList("Explode", true, 0, "Grey Box Turns Off Explode");
-            MoveRestrictor.AddToList("Flick", true, 0, "Grey Box Turns Off Flick");
+            MoveRestrictor.AddDescription("Description", "Description", "Disables Specific Moves", new Tags { IsSummary = true });
+            MoveRestrictor.AddToList("Sprint", true, 0, "Grey Box Turns Off Sprint", new Tags { });
+            MoveRestrictor.AddToList("Disc", true, 0, "Grey Box Turns Off Disc", new Tags { });
+            MoveRestrictor.AddToList("Pillar", true, 0, "Grey Box Turns Off Pillar", new Tags { });
+            MoveRestrictor.AddToList("Straight", true, 0, "Grey Box Turns Off Straight", new Tags { });
+            MoveRestrictor.AddToList("Ball", true, 0, "Grey Box Turns Off Ball", new Tags { });
+            MoveRestrictor.AddToList("Kick", true, 0, "Grey Box Turns Off Kick", new Tags { });
+            MoveRestrictor.AddToList("Stomp", true, 0, "Grey Box Turns Off Stomp", new Tags { });
+            MoveRestrictor.AddToList("Wall", true, 0, "Grey Box Turns Off Wall", new Tags { });
+            MoveRestrictor.AddToList("Jump", true, 0, "Grey Turns Off Jump", new Tags { });
+            MoveRestrictor.AddToList("Uppercut", true, 0, "Grey Box Turns Off Uppercut", new Tags { });
+            MoveRestrictor.AddToList("Cube", true, 0, "Grey Box Turns Off Cube", new Tags { });
+            MoveRestrictor.AddToList("Dash", true, 0, "Grey Box Turns Off Dash", new Tags { });
+            MoveRestrictor.AddToList("Parry", true, 0, "Grey Box Turns Off Parry", new Tags { });
+            MoveRestrictor.AddToList("Hold Left", true, 0, "Grey Box Turns Off Left Hand Hold", new Tags { });
+            MoveRestrictor.AddToList("Hold Right", true, 0, "Grey Box Turns Off Right Hand Hold", new Tags { });
+            MoveRestrictor.AddToList("Explode", true, 0, "Grey Box Turns Off Explode", new Tags { });
+            MoveRestrictor.AddToList("Flick", true, 0, "Grey Box Turns Off Flick", new Tags { });
             MoveRestrictor.GetFromFile();
+            MoveRestrictor.ModSaved += Save;
+            UI.instance.UI_Initialized += UIInit;
         }
 
         public override void OnSceneWasLoaded(int buildIndex, string sceneName)
@@ -57,10 +59,6 @@ namespace MoveRestrictor
 
         public override void OnFixedUpdate()
         {
-            if (UI.GetInit() && !MoveRestrictor.GetUIStatus())
-            {
-                UI.AddMod(MoveRestrictor);
-            }
             if (sceneChanged)
             {
                 if (currentScene != "Loader")
@@ -69,12 +67,21 @@ namespace MoveRestrictor
                 }
                 sceneChanged = false;
             }
-            if (movesSettable && (MoveRestrictor.GetSaveStatus() || timeToReadFile))
+            if (movesSettable && timeToReadFile)
             {
-                MoveRestrictor.ConfirmSave();
-                timeToReadFile = false;
-                ChangeAvailableMoveSets();
+                Save();
             }
+        }
+
+        public void UIInit()
+        {
+            UI.AddMod(MoveRestrictor);
+        }
+
+        public void Save()
+        {
+            timeToReadFile = false;
+            ChangeAvailableMoveSets();
         }
 
         public IEnumerator WaitThenCheckPoses(int sceneCount)
