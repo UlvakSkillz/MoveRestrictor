@@ -1,10 +1,11 @@
 ﻿using MelonLoader;
-using RUMBLE.Managers;
-using RUMBLE.Players.Subsystems;
-using RUMBLE.Poses;
+using Il2CppRUMBLE.Managers;
+using Il2CppRUMBLE.Players.Subsystems;
+using Il2CppRUMBLE.Poses;
 using System.Collections;
 using UnityEngine;
 using RumbleModUI;
+using System.Collections.Generic;
 
 namespace MoveRestrictor
 {
@@ -18,12 +19,12 @@ namespace MoveRestrictor
         private bool movesSettable = false;
         private object checkPosesCoroutine;
         private bool timeToReadFile = true;
-        private Il2CppSystem.Collections.Generic.List<PoseInputSource> storedMoves = new Il2CppSystem.Collections.Generic.List<PoseInputSource>();
+        private List<PoseInputSource> storedMoves = new List<PoseInputSource>();
 
         public override void OnLateInitializeMelon()
         {
             MoveRestrictor.ModName = "MoveRestrictor";
-            MoveRestrictor.ModVersion = "1.3.2";
+            MoveRestrictor.ModVersion = "2.0.2";
             MoveRestrictor.SetFolder("MoveRestrictor");
             MoveRestrictor.AddDescription("Description", "Description", "Disables Specific Moves", new Tags { IsSummary = true });
             MoveRestrictor.AddToList("Sprint", true, 0, "Grey Box Turns Off Sprint", new Tags { });
