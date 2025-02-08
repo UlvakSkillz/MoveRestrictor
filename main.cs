@@ -15,16 +15,16 @@ namespace MoveRestrictor
         private string currentScene = "Loader";
         private int sceneChangeCount = 0;
         UI UI = UI.instance;
-        private Mod MoveRestrictor = new Mod();
+        public static Mod MoveRestrictor = new Mod();
         private bool movesSettable = false;
-        private object checkPosesCoroutine;
-        private bool timeToReadFile = true;
-        private List<PoseInputSource> storedMoves = new List<PoseInputSource>();
+        private static bool timeToReadFile = true;
+        private static List<PoseInputSource> storedMoves = new List<PoseInputSource>();
+        private bool twitchModFound = false;
 
         public override void OnLateInitializeMelon()
         {
             MoveRestrictor.ModName = "MoveRestrictor";
-            MoveRestrictor.ModVersion = "2.0.2";
+            MoveRestrictor.ModVersion = "2.1.1";
             MoveRestrictor.SetFolder("MoveRestrictor");
             MoveRestrictor.AddDescription("Description", "Description", "Disables Specific Moves", new Tags { IsSummary = true });
             MoveRestrictor.AddToList("Sprint", true, 0, "Grey Box Turns Off Sprint", new Tags { });
@@ -62,9 +62,17 @@ namespace MoveRestrictor
         {
             if (sceneChanged)
             {
+                if (twitchModFound)
+                {
+                    return;
+                }
                 if (currentScene != "Loader")
                 {
-                    checkPosesCoroutine = MelonCoroutines.Start(WaitThenCheckPoses(sceneChangeCount));
+                    MelonCoroutines.Start(WaitThenCheckPoses(sceneChangeCount));
+                }
+                else
+                {
+                    MelonCoroutines.Start(LookForTwitchMod());
                 }
                 sceneChanged = false;
             }
@@ -79,18 +87,29 @@ namespace MoveRestrictor
             UI.AddMod(MoveRestrictor);
         }
 
-        public void Save()
+        public static void Save()
         {
             timeToReadFile = false;
             ChangeAvailableMoveSets();
         }
 
+        private IEnumerator LookForTwitchMod()
+        {
+            foreach(MelonMod mod in MelonBase.RegisteredMelons)
+            {
+                if (mod.Info.Name == "MoveRestrictorTwitchIntegration")
+                {
+                    twitchModFound = true;
+                    MelonLogger.Msg("Mod Found");
+                    yield break;
+                }
+            }
+            yield break;
+        }
+
         public IEnumerator WaitThenCheckPoses(int sceneCount)
         {
-            for (int i = 0; i < 300; i++)
-            {
-                yield return new WaitForFixedUpdate();
-            }
+                yield return new WaitForSeconds(6);
             while (PlayerManager.instance.localPlayer.Controller == null)
             {
                 yield return new WaitForFixedUpdate();
@@ -108,10 +127,10 @@ namespace MoveRestrictor
             }
             MoveRestrictor.GetFromFile();
             timeToReadFile = true;
-            MelonCoroutines.Stop(checkPosesCoroutine);
+            yield break;
         }
 
-        public void ChangeAvailableMoveSets()
+        public static void ChangeAvailableMoveSets()
         {
             System.Collections.Generic.List<string> movesToKeep = new System.Collections.Generic.List<string>();
             for (int i = 1; i < MoveRestrictor.Settings.Count; i++)
