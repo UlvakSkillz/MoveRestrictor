@@ -59,9 +59,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>F:\SteamLibrary\steamapps\common\RUMBLE\MelonLoader\net6\MelonLoader.dll</HintPath>
     </Reference>
-    <Reference Include="ModUI, Version=1.5.5.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ModUI, Version=2.1.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>F:\SteamLibrary\steamapps\common\RUMBLE Modding dlls\ModUI.dll</HintPath>
+      <HintPath>F:\SteamLibrary\steamapps\common\RUMBLE\Mods\ModUI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

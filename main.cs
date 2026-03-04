@@ -24,7 +24,7 @@ namespace MoveRestrictor
         public override void OnLateInitializeMelon()
         {
             MoveRestrictor.ModName = "MoveRestrictor";
-            MoveRestrictor.ModVersion = "2.1.1";
+            MoveRestrictor.ModVersion = "2.2.1";
             MoveRestrictor.SetFolder("MoveRestrictor");
             MoveRestrictor.AddDescription("Description", "Description", "Disables Specific Moves", new Tags { IsSummary = true });
             MoveRestrictor.AddToList("Sprint", true, 0, "Grey Box Turns Off Sprint", new Tags { });
