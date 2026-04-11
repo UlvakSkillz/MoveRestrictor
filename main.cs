@@ -19,12 +19,11 @@ namespace MoveRestrictor
         private bool movesSettable = false;
         private static bool timeToReadFile = true;
         private static List<PoseInputSource> storedMoves = new List<PoseInputSource>();
-        private bool twitchModFound = false;
 
         public override void OnLateInitializeMelon()
         {
             MoveRestrictor.ModName = "MoveRestrictor";
-            MoveRestrictor.ModVersion = "2.2.2";
+            MoveRestrictor.ModVersion = "2.2.3";
             MoveRestrictor.SetFolder("MoveRestrictor");
             MoveRestrictor.AddDescription("Description", "Description", "Disables Specific Moves", new Tags { IsSummary = true });
             MoveRestrictor.AddToList("Sprint", true, 0, "Grey Box Turns Off Sprint", new Tags { });
@@ -62,17 +61,9 @@ namespace MoveRestrictor
         {
             if (sceneChanged)
             {
-                if (twitchModFound)
-                {
-                    return;
-                }
                 if (currentScene != "Loader")
                 {
                     MelonCoroutines.Start(WaitThenCheckPoses(sceneChangeCount));
-                }
-                else
-                {
-                    MelonCoroutines.Start(LookForTwitchMod());
                 }
                 sceneChanged = false;
             }
@@ -91,20 +82,6 @@ namespace MoveRestrictor
         {
             timeToReadFile = false;
             ChangeAvailableMoveSets();
-        }
-
-        private IEnumerator LookForTwitchMod()
-        {
-            foreach(MelonMod mod in MelonBase.RegisteredMelons)
-            {
-                if (mod.Info.Name == "MoveRestrictorTwitchIntegration")
-                {
-                    twitchModFound = true;
-                    MelonLogger.Msg("Mod Found");
-                    yield break;
-                }
-            }
-            yield break;
         }
 
         public IEnumerator WaitThenCheckPoses(int sceneCount)
