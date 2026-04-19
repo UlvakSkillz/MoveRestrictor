@@ -1,0 +1,13 @@
+C:\Users\austi\source\repos\MoveRestrictor\MoveRestrictor\obj\Debug\net6.0\MoveRestrictor.csproj.AssemblyReference.cache
+C:\Users\austi\source\repos\MoveRestrictor\MoveRestrictor\obj\Debug\net6.0\MoveRestrictor.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\austi\source\repos\MoveRestrictor\MoveRestrictor\obj\Debug\net6.0\MoveRestrictor.AssemblyInfoInputs.cache
+C:\Users\austi\source\repos\MoveRestrictor\MoveRestrictor\obj\Debug\net6.0\MoveRestrictor.AssemblyInfo.cs
+C:\Users\austi\source\repos\MoveRestrictor\MoveRestrictor\obj\Debug\net6.0\MoveRestrictor.csproj.CoreCompileInputs.cache
+C:\Users\austi\source\repos\MoveRestrictor\MoveRestrictor\obj\Debug\net6.0\MoveRestrictor.sourcelink.json
+C:\Users\austi\source\repos\MoveRestrictor\MoveRestrictor\bin\Debug\net6.0\MoveRestrictor.deps.json
+C:\Users\austi\source\repos\MoveRestrictor\MoveRestrictor\bin\Debug\net6.0\MoveRestrictor.dll
+C:\Users\austi\source\repos\MoveRestrictor\MoveRestrictor\bin\Debug\net6.0\MoveRestrictor.pdb
+C:\Users\austi\source\repos\MoveRestrictor\MoveRestrictor\obj\Debug\net6.0\MoveRestrictor.dll
+C:\Users\austi\source\repos\MoveRestrictor\MoveRestrictor\obj\Debug\net6.0\refint\MoveRestrictor.dll
+C:\Users\austi\source\repos\MoveRestrictor\MoveRestrictor\obj\Debug\net6.0\MoveRestrictor.pdb
+C:\Users\austi\source\repos\MoveRestrictor\MoveRestrictor\obj\Debug\net6.0\ref\MoveRestrictor.dll
